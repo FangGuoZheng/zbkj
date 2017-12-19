@@ -1,0 +1,84 @@
+.order{
+	width: 80px;
+	height:50px;
+	text-align:center;
+	border:1px;
+	font-family : 微软雅黑,宋体;
+	font-size : 1em;
+}
+.studentNo{
+	width: 100px;
+	height:50px;
+	text-align:center;
+	border:1px;
+	font-family : 微软雅黑,宋体;
+	font-size : 1em;
+}
+.name{
+	width: 100px;
+	height:50px;
+	text-align:center;
+	border:1px;
+	font-family : 微软雅黑,宋体;
+	font-size : 1em;
+}
+.banji{
+	width: 150px;
+	height:50px;
+	text-align:center;
+	border:1px;
+	font-family : 微软雅黑,宋体;
+	font-size : 1em;
+}
+.score{
+	width: 80px;
+	height:50px;
+	text-align:center;
+	border:1px;
+	font-family : 微软雅黑,宋体;
+	font-size : 1em;
+}
+.solve{
+	width: 80px;
+	height:50px;
+	text-align:center;
+	border:1px;
+	font-family : 微软雅黑,宋体;
+	font-size : 1em;
+}
+.problemInfo{
+	width: 80px;
+	height:50px;
+	text-align:center;
+	border:1px;
+	font-family : 微软雅黑,宋体;
+	font-size : 10px;
+}
+.submitSolve{
+	width: 120px;
+	height:50px;
+	text-align:center;
+	border:1px;
+	font-family : 微软雅黑,宋体;
+	font-size : 1em;
+}
+.firstSolved{
+	background-color:#009900;
+}
+.solved{
+	background-color:#00FF00;
+}
+.submitUnsolved{
+	background-color:#7FFF00;
+}
+.unsolved{
+	background-color:#FF3300;
+}
+.totalTitle{
+	width: 510px;
+	height:50px;
+	text-align:center;
+	border:1px;
+	font-family : 微软雅黑,宋体;
+	font-size : 1em;
+}
