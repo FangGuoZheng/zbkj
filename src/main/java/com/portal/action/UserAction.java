@@ -127,9 +127,18 @@ public class UserAction extends BaseAction implements ModelDriven<UserPage> {
 
         UserPage userPage1 = getUserByURL(userPage.getAreacode(), userPage.getMobile(), userPage.getSaleId());
         if (userPage1 == null){
-            logger.info("添加用户失败");
+            logger.info("不存在此用户，请检查用户手机号是否正确");
             json.setSuccess(false);
-            json.setMsg("添加用户失败");
+            json.setMsg("不存在此用户，请检查用户手机号是否正确");
+            json.setObj(false);
+            super.writeJson(json);
+            return;
+        }
+
+        if (userPage1.getId()!=null && userPage1.getId() == 0){
+            logger.info("接口调用出错");
+            json.setSuccess(false);
+            json.setMsg("接口调用出错");
             json.setObj(false);
             super.writeJson(json);
             return;

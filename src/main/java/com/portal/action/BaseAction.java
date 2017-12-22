@@ -62,11 +62,18 @@ public class BaseAction extends ActionSupport {
 	public UserPage getUserByURL(String areacode, String mobile, Integer saleId){
 		StringBuffer bs = new StringBuffer();
 		try {
-			URL url = new URL("http://60.205.141.183/third/contacts/profile?appid=03d98797a2be45fca26792f559949fa3&appsecret=e40bb81d42994b2eb8ac3224304d2b9b&areacode="+areacode+"&mobile="+mobile);
+			URL url = new URL("http://60.205.141.183/third/contacts/profile/mobile");
 			HttpURLConnection urlcon = (HttpURLConnection)url.openConnection();
-			urlcon.setRequestMethod("GET");
+			urlcon.setRequestMethod("POST");
 			urlcon.setRequestProperty("contentType", "utf-8");
-			urlcon.connect();
+			urlcon.setDoOutput(true);  // 是否输入参数
+			StringBuffer params = new StringBuffer();
+			params.append("appid").append("=").append("03d98797a2be45fca26792f559949fa3").append("&")
+					.append("appsecret").append("=").append("e40bb81d42994b2eb8ac3224304d2b9b").append("&")
+					.append("areacode").append("=").append(areacode).append("&")
+					.append("mobile").append("=").append(mobile);
+			byte[] bypes = params.toString().getBytes();
+			urlcon.getOutputStream().write(bypes);
 			InputStream is = urlcon.getInputStream();
 			BufferedReader buffer = new BufferedReader(new InputStreamReader(is, "utf-8"));
 			String l = null;
@@ -74,7 +81,11 @@ public class BaseAction extends ActionSupport {
 				bs.append(l);
 			}
 		}catch (Exception e){
-			System.out.print("----------"+ e.getMessage());
+			System.out.println("----------"+ e.getMessage());
+			// 下面的返回值，是为了在调用第三方接口出错时，给用户提示
+			UserPage up = new UserPage();
+			up.setId(0);
+			return up;
 		}
 
 		Object o = JSON.parse(bs.toString());

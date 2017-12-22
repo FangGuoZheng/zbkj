@@ -24,6 +24,7 @@ $(function(){
                     nameclass.value = row["id"];
                     nameclass.label = row["mobile"];
                     nameclass.name = row["name"];
+                    nameclass.nickname = row["nickname"];
                     users.push(nameclass);
                 }
 
@@ -76,7 +77,8 @@ $(function(){
             return;
         }
 
-        $('#mobileInput').text("你确定给"+realName+"用户充值"+amount+"元吗？");
+        $('#mobileInput1').text(realName);
+        $('#mobileInput2').text(amount);
         $('#promptModal').modal('show');
 	});
 

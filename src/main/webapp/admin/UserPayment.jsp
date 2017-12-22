@@ -13,7 +13,9 @@
 			</div>
 			<div class="modal-body">
 				<form>
-					<div class="input-group form-group" id="mobileInput"></div>
+					<div class="input-group form-group" id="mobileInput">
+						你确定给<span style="color:#FF0000;font-weight:bold;" id="mobileInput1"></span>用户充值<span style="color:#FF0000;font-weight:bold;" id="mobileInput2"></span>元吗？
+					</div>
 					&nbsp;&nbsp;&nbsp;&nbsp;
 					<button type="button" class="btn btn-info navbar-right-btn" id="confirmModelLoginBtn">确定</button>
 					&nbsp;&nbsp;&nbsp;&nbsp;
@@ -92,7 +94,11 @@
                 select: function(event,ui) {
                     $("#userName").val(ui.item.label);
                     $("#userId").val(ui.item.value);
-                    $("#realName").val(ui.item.name);
+                    if(ui.item.name != null){
+                        $("#realName").val(ui.item.name);
+                    }else{
+                        $("#realName").val(ui.item.nickname);
+                    }
                     return false;
                 },
             });
