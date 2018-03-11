@@ -99,6 +99,7 @@ $(function(){
 		var moduleId=$("#moduleId").val();
 		var moduleName=$("#moduleId").find("option:selected").text();
 		var accessTimeValue=$("#accessTimeValue").val();
+        var accessTimeUnit=$("#accessTimeUnit").val();
 		var accessTimeTwo=$("#accessTimeTwo").val();
 		var amount=$("#amount").val();
         if(userName=='') {
@@ -115,6 +116,10 @@ $(function(){
 		}
         if(accessTimeValue=='' && accessTimeTwo=='') {
             $.notify({message: "延长时长值和延长日期不能同时为空" },{placement: {from: "bottom",align: "right"},type: 'danger',delay: 2000});
+            return;
+        }
+        if(accessTimeValue!='' && accessTimeUnit=='') {
+            $.notify({message: "延长时长值已填写，其单位不能为空" },{placement: {from: "bottom",align: "right"},type: 'danger',delay: 2000});
             return;
         }
         if(amount=='') {

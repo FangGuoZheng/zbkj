@@ -22,19 +22,26 @@ public class StaffDaoImpl extends BaseDaoImpl<Staff> implements StaffDaoI {
 	}
 
 	@Override
-	public List<Staff> getAll(String rolename, String account, String name, String phone, String email, int pageSize, int page) {
+	public List<Staff> getAll(Integer roleId, String rolename, String account, String name, String phone, String email, int pageSize, int page) {
 		// TODO Auto-generated method stub
 		String hql="from Staff s where s.deleteflag=false";
-		if(rolename != null)
-			hql+=" and s.role.roleName='"+rolename+"'";
-		if(account != null)
-			hql+=" and s.account='"+account+"'";
-		if(name != null)
-			hql+=" and s.name='"+name+"'";
-		if(phone != null)
-			hql+=" and s.phone='"+phone+"'";
-		if(email != null)
-			hql+=" and s.email='"+email+"'";
+		if(roleId != null) {
+			if(roleId == 13){
+				hql += " and (s.role.id=1 or s.role.id=3)";
+			}else {
+				hql += " and s.role.id=" + roleId + "";
+			}
+		}
+		if(rolename != null && !"".equals(rolename))
+			hql+=" and s.role.roleName like '%"+rolename+"%'";
+		if(account != null && !"".equals(account))
+			hql+=" and s.account like '%"+account+"%'";
+		if(name != null && !"".equals(name))
+			hql+=" and s.name like '%"+name+"%'";
+		if(phone != null && !"".equals(phone))
+			hql+=" and s.phone like '%"+phone+"%'";
+		if(email != null && !"".equals(email))
+			hql+=" and s.email like '%"+email+"%'";
 		hql+=" order by s.id asc";
 		Query q = this.getCurrentSession().createQuery(hql);
 		int startIndex=(page-1)*pageSize;

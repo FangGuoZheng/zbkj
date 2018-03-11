@@ -60,6 +60,7 @@ public class UserServiceImpl implements UserServiceI {
             userPage.setBirthdate(user.getBirthdate());
             userPage.setLocation(user.getLocation());
             userPage.setType(user.getType());
+            userPage.setExpiredate(user.getExpiredate().toString());
             userPage.setAreacode(user.getAreacode());
             userPage.setAvatar(user.getAvatar());
             userPage.setSaleId(user.getSale().getId());
@@ -86,7 +87,11 @@ public class UserServiceImpl implements UserServiceI {
         User user = new User();
 
         user.setUuid(userPage.getUuid());
-        user.setName(userPage.getName());
+        if (userPage.getName() == null || "".equals(userPage.getName())){
+            user.setName(userPage.getNickname());
+        }else {
+            user.setName(userPage.getName());
+        }
         user.setNickname(userPage.getNickname());
         if (userPage.getAreacode() != null)
             user.setAreacode(userPage.getAreacode());

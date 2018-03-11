@@ -40,7 +40,7 @@ public class UserAction extends BaseAction implements ModelDriven<UserPage> {
      * 根据条件获取用户列表，分页
      */
     public void getALLBySaleId(){
-        if(userPage.getRoleId() == 1){
+        if(userPage.getSaleId() == 1){
             userPage.setSaleId(null);
         }
         List<UserPage> list = this.userService.getALLBySaleId(userPage.getSaleId(), userPage.getName(), userPage.getNickname(), userPage.getMobile(), userPage.getEmail(), userPage.getPageSize(), userPage.getPage());

@@ -13,6 +13,21 @@ import java.util.List;
 @Repository("UserModuleOrderDao")
 public class UserModuleOrderDaoImpl extends BaseDaoImpl<UserModuleOrder> implements UserModuleOrderDaoI {
     @Override
+    public List<UserModuleOrder> get(Integer staffId, String  userName, String moduleName, Integer opeUserId) {
+        String hql = "from UserModuleOrder u where u.deleteflag=false";
+        if (staffId != null)
+            hql += " and u.user.sale.id="+staffId;
+        if (userName != null && !"".equals(userName))
+            hql += " and u.user.name like '%"+userName+"%'";
+        if (moduleName != null && !"".equals(moduleName))
+            hql += " and u.module.name like '%"+moduleName+"%'";
+        if (opeUserId != null)
+            hql += " and u.opeUser.id="+opeUserId;
+        Query q = this.getCurrentSession().createQuery(hql);
+        return q.list();
+    }
+
+    @Override
     public List<UserModuleOrder> getAllByOpeUser(Integer opeUserId) {
         String hql = "from UserModuleOrder u where u.deleteflag=false";
         if (opeUserId != null)

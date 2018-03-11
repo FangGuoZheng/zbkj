@@ -125,6 +125,7 @@
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">用户管理<span class="caret"></span></a>
 					<ul class="dropdown-menu">
 						<li><a href="${pageContext.request.contextPath}/admin/UserManage.jsp">查看所有用户</a></li>
+						<li><a href="${pageContext.request.contextPath}/admin/UserModuleOrder.jsp">查看用户模块订单</a></li>
 						<li><a href="${pageContext.request.contextPath}/admin/UserAdd.jsp">添加用户</a></li>
 					</ul>
 				</li>

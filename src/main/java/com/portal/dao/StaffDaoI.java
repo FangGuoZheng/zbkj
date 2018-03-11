@@ -7,7 +7,7 @@ import com.portal.model.Staff;
 
 public interface StaffDaoI extends BaseDaoI<Staff> {
 	
-	public List<Staff> getAll(String rolename, String account, String name, String phone, String email, int pageSize, int page);
+	public List<Staff> getAll(Integer roleId, String rolename, String account, String name, String phone, String email, int pageSize, int page);
 	public int getAllCount(String rolename,String account,String name,String phone,String email); //获取用户的数目
 	public boolean add(Staff staff);  //添加用户
 	public Staff getByAccount(String account);  //根据账号获取用户信息

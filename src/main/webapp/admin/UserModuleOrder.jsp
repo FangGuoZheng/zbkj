@@ -7,7 +7,7 @@
 	<meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>人员管理</title>
+	<title>用户模块订单</title>
 	<!-- Bootstrap -->
     <link href="${pageContext.request.contextPath}/jslib/bootstrap-3.3.5-dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- 自定义样式 -->
@@ -29,17 +29,20 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/jslib/jquery.dtGrid.v1.1.9/jquery.dtGrid.css" />
     <!-- DT Grid 表格插件的js、css文件 -->
     
-    <%
+     <%
 					SessionInfo sessionInfo = (SessionInfo)session.getAttribute("sessionInfo");
 	 %>
 	  <script type="text/javascript">
-        var roleName="<% if(sessionInfo!=null)
-                              out.print(sessionInfo.getRoleName());%>";
+          var staffId="<% if(sessionInfo!=null)
+                              out.print(sessionInfo.getStaffId());%>";
+
+          var roleId="<% if(sessionInfo!=null)
+                              out.print(sessionInfo.getRoleId());%>";
 	 </script>
         <!-- 必须的公共JS -->
     <script src="${pageContext.request.contextPath}/admin/js/Common.js"></script>
     <!-- 自定义JS -->
-    <script src="${pageContext.request.contextPath}/admin/js/StaffManage.js"></script>
+    <script src="${pageContext.request.contextPath}/admin/js/UserModuleOrder.js"></script>
     <!-- jQuery -->
     <script src="${pageContext.request.contextPath}/jslib/jQuery/jquery-1.11.3.min.js"></script>
     <!-- Bootstrap -->
@@ -47,26 +50,59 @@
     <!-- bootstrap-notify -->
     <script src="${pageContext.request.contextPath}/jslib/bootstrap-notify/bootstrap-notify.min.js"></script>
 
+    <script>
+        $(function () {
+            $.ajax({
+                type: "POST",
+                url: ctx + '/StaffAction!getStaff.action',
+                data:{
+                    roleId:13 // 表示roleId=1或3
+                },
+                async:false,
+                success: function(json)
+                {
+                    var dataObj = eval("(" + json + ")"),
+                        msg = dataObj["msg"],
+                        successFlag = dataObj["success"];
+
+                    if (successFlag) {
+                        $("#opeUserId_search").append("<option value=''></option>");
+
+                        var rows = dataObj["obj"];
+
+                        for (var i = 0; i < rows.length; i++) {
+                            // 当前行所有数据
+                            var row = rows[i];
+                            var staffId = row["staffId"];
+                            var staffName = row["name"];
+                            $("#opeUserId_search").append("<option value='"+staffId+"'>"+staffName+"</option>");
+                        }
+
+                    }
+                },
+                error: function(){
+                }
+            });
+        });
+    </script>
+
 </head>
 <body>
 	<!-- 整个页面外层container -->
 	<div class="container">
 		<!-- 公用的导航栏 -->
-		<jsp:include page="./CommonHead.jsp"></jsp:include>
-		<p class="lead"><span class="glyphicon glyphicon-list"></span>查看人员信息</p>
+		<jsp:include page="/admin/CommonHead.jsp"></jsp:include>
+		<p class="lead"><span class="glyphicon glyphicon-list"></span>查看用户模块订单</p>
 
         <div style = "text-align:left;">
-            账号：<input style="width: 100px; height: 33px" type="text" id="account_search" /> &nbsp;
-            姓名：<input style="width: 100px; height: 33px" type="text" id="name_search" /> &nbsp;
-            手机号：<input style="width: 100px; height: 33px" type="text" id="mobile_search" /> &nbsp;
-            角色：<input style="width: 100px; height: 33px" type="text" id="roleName_search" /> &nbsp;
-            Email：<input style="width: 100px; height: 33px" type="text" id="email_search" /> &nbsp;&nbsp;
+            用户名：<input style="width: 100px; height: 33px" type="text" id="userName_search" /> &nbsp;
+            模块名：<input style="width: 100px; height: 33px" type="text" id="moduleName_search" /> &nbsp;
+            操作订单人：
+            <select style="width: 100px; height: 33px" id="opeUserId_search" >
+            </select>&nbsp;&nbsp;
             <button class="btn btn-info btn-sm joinExamBtn" onclick="filter()">自定义查询</button>
         </div>
 
-        <div style = "text-align:right;">
-            <button class="btn btn-info btn-sm joinExamBtn" onclick="window.location.href='StaffAdd.jsp'">添加人员</button>
-        </div>
 	    <div id="dtGridContainer" class="dt-grid-container" style="overflow:hidden"></div>
         <div id="dtGridToolBarContainer" class="dt-grid-toolbar-container"></div>
 	</div>
@@ -77,14 +113,14 @@
       <div class="modal-content">
          <div class="modal-header">
          <button type="button" class="close" data-dismiss="modal" 
-               aria-hidden="true">
+               aria-hidden="true">×
             </button>
             <h4 class="modal-title" id="myModalLabel">
-              确认要删除以下人员信息？
+              确认要删除以下用户信息？
             </h4>
          </div>
          <div class="modal-body">
-  删除该用户以后，数据将会从数据库中删除
+             删除该用户以后，数据将会从数据库中删除
          </div>
          <div class="modal-footer">
             <button type="button" class="btn btn-default" 
@@ -107,7 +143,7 @@
 	        <h4 class="modal-title">信息提示</h4>
 	      </div>
 	      <div class="modal-body">
-	        <p class="warningText"><span>不能查看，请用管理员账号登录</span></p>
+	        <p class="warningText"><span>不能查看，请用管理人员账号登录</span></p>
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>

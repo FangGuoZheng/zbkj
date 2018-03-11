@@ -18,14 +18,14 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDaoI {
         String hql = "from User u where u.deleteflag=false ";
         if (saleId != null)
             hql += "and u.sale.id="+saleId+" ";
-        if (name != null)
-            hql += "and u.name='"+name+"' ";
-        if (nickname != null)
-            hql += "and u.nickname='"+nickname+"' ";
-        if (mobile != null)
-            hql += "and u.mobile='"+mobile+"' ";
-        if (email != null)
-            hql += "and u.email='"+email+"' ";
+        if (name != null && !"".equals(name))
+            hql += "and u.name like '%"+name+"%' ";
+        if (nickname != null && !"".equals(nickname))
+            hql += "and u.nickname like '%"+nickname+"%' ";
+        if (mobile != null && !"".equals(mobile))
+            hql += "and u.mobile like '%"+mobile+"%' ";
+        if (email != null && !"".equals(email))
+            hql += "and u.email like '%"+email+"%' ";
         Query q = this.getCurrentSession().createQuery(hql);
         int startIndex=(page-1)*pageSize;
         q.setFirstResult(startIndex);
@@ -75,7 +75,8 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDaoI {
 
     @Override
     public boolean delete(Integer id) {
-        String hql="Update User set deleteflag=true where id="+id;
+//        String hql="Update User set deleteflag=true where id="+id;
+        String hql="delete from User where id="+id;
         int count=this.executeHql(hql);
         if(count>=0)
             return true;

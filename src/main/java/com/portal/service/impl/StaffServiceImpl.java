@@ -68,10 +68,10 @@ public class StaffServiceImpl implements StaffServiceI {
 	}
 
 	@Override
-	public List<StaffPage> getAll(String roleName, String account, String name,
+	public List<StaffPage> getAll(Integer roleId, String roleName, String account, String name,
 									  String phone, String email, int pageSize, int page) {
 		// TODO Auto-generated method stub
-		List<Staff> list=staffDao.getAll(roleName,account,name,phone,email,pageSize,page);
+		List<Staff> list=staffDao.getAll(roleId, roleName,account,name,phone,email,pageSize,page);
 		List<StaffPage> pageList=new ArrayList<StaffPage>();
 		for(int i=0;i<list.size();i++)
 		{
@@ -83,7 +83,7 @@ public class StaffServiceImpl implements StaffServiceI {
 			p.setEmail(staff.getEmail());
 			p.setPhone(staff.getPhone());
 			p.setRoleId(staff.getRole().getId());
-			p.setRoleName(staff.getRole().getName());
+			p.setRoleName(staff.getRole().getRoleName());
 			pageList.add(p);
 		}
 		return pageList;

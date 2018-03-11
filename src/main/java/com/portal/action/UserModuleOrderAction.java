@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.TimeZone;
 
 /**
@@ -61,6 +62,29 @@ public class UserModuleOrderAction extends BaseAction implements ModelDriven<Use
     @Override
     public UserModuleOrderPage getModel() {
         return userModuleOrderPage;
+    }
+
+    /**
+     * 获取用户模块订单信息
+     */
+    public void get(){
+        if (userModuleOrderPage.getStaffId() == 1){
+            userModuleOrderPage.setStaffId(null);
+        }
+        List<UserModuleOrderPage> list = this.userModuleOrderService.get(userModuleOrderPage.getStaffId(), userModuleOrderPage.getUserName(), userModuleOrderPage.getModuleName(), userModuleOrderPage.getOpeUserId());
+        Json j = new Json();
+        if (list != null && list.size() != 0){
+            logger.info("查询用户模块订单信息成功");
+            j.setSuccess(true);
+            j.setMsg("查询用户模块订单信息成功");
+            j.setObj(list);
+        } else{
+            logger.info("查询用户模块订单信息失败");
+            j.setSuccess(false);
+            j.setMsg("查询用户模块订单信息失败");
+            j.setObj(null);
+        }
+        super.writeJson(j);
     }
 
     /**

@@ -1,13 +1,16 @@
 var datas = new Array();
 var nowId=0;
 $(function(){
-    if(roleName=="admin"){
+    if(roleId == 1 || roleId == 3){
         // 初始化页面上的提示框
         $('[data-toggle="tooltip"]').tooltip();
         $.ajax(
             {
                 type: "POST",
-                url: ctx + '/StaffAction!getStaff.action',
+                url: ctx + '/UserModuleOrderAction!get.action',
+                data:{
+                    staffId:staffId
+                },
                 async:false,
                 success: showAdminResult,
                 error: function(){
@@ -31,14 +34,17 @@ function showAdminResult(json)
             // 当前行所有数据
             var row = rows[i];
             //从此修改
-            var m4Staff=new Object();
-            m4Staff.staffId=row["staffId"];
-            m4Staff.account=row["account"];
-            m4Staff.name=row["name"];
-            m4Staff.phone=row["phone"];
-            m4Staff.email=row["email"];
-            m4Staff.roleName=row["roleName"];
-            datas.push(m4Staff);
+            var userModuleOrder=new Object();
+
+            userModuleOrder.id=row["id"];
+            userModuleOrder.userName=row["userName"];
+            userModuleOrder.moduleName=row["moduleName"];
+            userModuleOrder.opeUserName=row["opeUserName"];
+            userModuleOrder.amount=row["amount"];
+            userModuleOrder.expiredate=row["expiredate"];
+            userModuleOrder.description=row["description"];
+
+            datas.push(userModuleOrder);
         }
 
     }
@@ -47,29 +53,29 @@ function showAdminResult(json)
         $.notify({message: msg },{placement: {from: "bottom",align: "right"},type: 'success',delay: 2000});
     }
 }
-function filter() {
-    if(roleName=="admin"){
+
+function filter()
+{
+    if(roleId == 1 || roleId == 3){
         // 初始化页面上的提示框
         $('[data-toggle="tooltip"]').tooltip();
 
         datas.length=0;
         grid.refresh(true);
-        var account = $("#account_search").val();
-        var name = $("#name_search").val();
-        var mobile = $("#mobile_search").val();
-        var roleNameSearch = $("#roleName_search").val();
-        var email = $("#email_search").val();
+        var userName = $("#userName_search").val();
+        var moduleName = $("#moduleName_search").val();
+        var opeUserId = $("#opeUserId_search").val();
 
         $.ajax(
             {
                 type: "POST",
-                url: ctx + '/StaffAction!getStaff.action',
+                url: ctx + '/UserModuleOrderAction!get.action',
                 data:{
-                    account:account,
-                    name:name,
-                    phone:mobile,
-                    roleName:roleNameSearch,
-                    email:email
+                    staffId:staffId,
+                    roleId:roleId,
+                    userName:userName,
+                    moduleName:moduleName,
+                    opeUserId:opeUserId
                 },
                 async:false,
                 success: showAdminResult,
@@ -81,26 +87,15 @@ function filter() {
         $('#prompt').modal("toggle");
     }
 }
-function editAccount(staffId)
-{
-    window.open("StaffEdit.jsp?staffId="+staffId);
-}
-function editPassword(id,account)
-{
-    window.open("StaffEditPassword.jsp?id="+id+"&account="+account);
-}
-function deletePreprocess(id)
-{
-    nowId=id;
-}
+
 function deleteAdminuser()
 {
     $.ajax(
         {
             type: "POST",
-            url: ctx + '/StaffAction!deleteById.action',
+            url: ctx + '/UserAction!delete.action',
             data:{
-                staffId:nowId
+                id:nowId
             },
             async:false,
             success: function(json){
@@ -129,20 +124,12 @@ function deleteAdminuser()
         });
 }
 var dtGridColumns = [
-    {id:'staffId', title:'编号', type:'number', columnClass:'text-center'},
-    {id:'account', title:'账号', type:'string', columnClass:'text-center'},
-    {id:'name', title:'姓名', type:'string', columnClass:'text-center'},
-    {id:'phone', title:'电话号码', type:'string', columnClass:'text-center'},
-    {id:'roleName', title:'角色', type:'string', columnClass:'text-center'},
-    {id:'email', title:'Email', type:'string', columnClass:'text-center'},
-    {id:'operation', title:'操作', type:'string', columnClass:'text-center',resolution:function(value, record, column, grid, dataNo, columnNo){
-        var content = '';
-        content += '<button class="btn btn-info btn-sm joinExamBtn" onclick="editAccount('+record.staffId+')">编辑</button>';
-        content += '<button class="btn btn-info btn-sm joinExamBtn" onclick="editPassword('+record.staffId+',\''+record.account+'\')">重设密码</button>';
-        content += '<button class="btn btn-info btn-sm joinExamBtn" data-toggle="modal" data-target="#deleteModal" onclick="deletePreprocess('+record.staffId+')">删除</button>';
-        return content;
-    }}
-
+    {id:'userName', title:'用户名', type:'string', columnClass:'text-center'},
+    {id:'moduleName', title:'模块名', type:'string', columnClass:'text-center'},
+    {id:'opeUserName', title:'操作订单人', type:'string', columnClass:'text-center'},
+    {id:'amount', title:'交易额', type:'float', columnClass:'text-center'},
+    {id:'expiredate', title:'用户访问模块期限', type:'string', columnClass:'text-center'},
+    {id:'description', title:'描述', type:'string', columnClass:'text-center'}
 ];
 var dtGridOption = {
     lang : 'zh-cn',

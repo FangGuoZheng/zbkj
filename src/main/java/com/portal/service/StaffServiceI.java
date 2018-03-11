@@ -7,7 +7,7 @@ import com.portal.pageModel.SessionInfo;
 import com.portal.pageModel.StaffPage;
 
 public interface StaffServiceI {
-	public List<StaffPage> getAll(String roleName, String account, String name, String phone, String email, int pageSize, int page);  //获取所有用户信息
+	public List<StaffPage> getAll(Integer roleId, String roleName, String account, String name, String phone, String email, int pageSize, int page);  //获取所有用户信息
 	public int getAllCount(String roleName,String account,String name,String phone,String email);  //获取用户的数目
 	public boolean add(StaffPage staffPage);  //添加用户
 	public StaffPage getByAccount(String account);  //根据账号获取用户信息

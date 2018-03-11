@@ -45,6 +45,7 @@ function showAdminResult(json)
             user.gender=row["gender"];
             user.birthdate=row["birthdate"];
             user.location=row["location"];
+            user.expiredate=row["expiredate"];
 
             datas.push(user);
         }
@@ -53,6 +54,48 @@ function showAdminResult(json)
     else
     {
         $.notify({message: msg },{placement: {from: "bottom",align: "right"},type: 'success',delay: 2000});
+    }
+}
+function filter()
+{
+    if(roleId == 1 || roleId == 3){
+        // 初始化页面上的提示框
+        $('[data-toggle="tooltip"]').tooltip();
+
+        var saleId1;
+        datas.length=0;
+        grid.refresh(true);
+        var name = $("#name_search").val();
+        var nickname = $("#nickname_search").val();
+        var mobile = $("#mobile_search").val();
+        var email = $("#email_search").val();
+        var saleIdTemp = $("#saleId_search").val();
+        if(saleIdTemp!=null && saleIdTemp!=''){
+            saleId1 = saleIdTemp;
+        }else{
+            saleId1 = saleId;
+        }
+
+        $.ajax(
+            {
+                type: "POST",
+                url: ctx + '/UserAction!getALLBySaleId.action',
+                data:{
+                    saleId:saleId1,
+                    roleId:roleId,
+                    name:name,
+                    nickname:nickname,
+                    mobile:mobile,
+                    email:email
+                },
+                async:false,
+                success: showAdminResult,
+                error: function(){
+                }
+            });
+        grid.load();
+    }else{
+        $('#prompt').modal("toggle");
     }
 }
 function editAccount(id)
@@ -118,6 +161,7 @@ var dtGridColumns = [
         }, columnClass:'text-center'},
     {id:'birthdate', title:'生日', type:'string', columnClass:'text-center'},
     {id:'location', title:'联系人地址', type:'string', columnClass:'text-center'},
+    {id:'expiredate', title:'会员截止日期', type:'string', columnClass:'text-center'},
     {id:'operation', title:'操作', type:'string', columnClass:'text-center',resolution:function(value, record, column, grid, dataNo, columnNo){
         var editUrl = "editAccount.jsp?id="+record.id;
 

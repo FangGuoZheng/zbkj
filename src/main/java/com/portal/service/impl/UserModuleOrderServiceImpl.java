@@ -7,6 +7,7 @@ import com.portal.service.UserModuleOrderServiceI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,6 +43,29 @@ public class UserModuleOrderServiceImpl implements UserModuleOrderServiceI {
     @Autowired
     public void setModuleAccessDao(ModuleAccessDaoI moduleAccessDao) {
         this.moduleAccessDao = moduleAccessDao;
+    }
+
+    @Override
+    public List<UserModuleOrderPage> get(Integer staffId, String userName, String moduleName, Integer opeUserId) {
+        List<UserModuleOrderPage> list = new ArrayList<>();
+        List<UserModuleOrder> list1 = this.userModuleOrderDao.get(staffId, userName, moduleName, opeUserId);
+        for (UserModuleOrder userModuleOrder : list1){
+            UserModuleOrderPage userModuleOrderPage = new UserModuleOrderPage();
+
+            userModuleOrderPage.setId(userModuleOrder.getId());
+            userModuleOrderPage.setUserId(userModuleOrder.getUser().getId());
+            userModuleOrderPage.setUserName(userModuleOrder.getUser().getName());
+            userModuleOrderPage.setModuleId(userModuleOrder.getModule().getId());
+            userModuleOrderPage.setModuleName(userModuleOrder.getModule().getName());
+            userModuleOrderPage.setOpeUserId(userModuleOrder.getOpeUser().getId());
+            userModuleOrderPage.setOpeUserName(userModuleOrder.getOpeUser().getName());
+            userModuleOrderPage.setAmount(userModuleOrder.getAmount());
+            userModuleOrderPage.setExpiredate(userModuleOrder.getTime().toString());
+            userModuleOrderPage.setDescription(userModuleOrder.getDescription());
+
+            list.add(userModuleOrderPage);
+        }
+        return list;
     }
 
     @Override

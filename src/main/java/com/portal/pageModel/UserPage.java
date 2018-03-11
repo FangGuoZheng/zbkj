@@ -18,6 +18,7 @@ public class UserPage {
     private String birthdate;
     private String location;
     private String type;
+    private String expiredate;
     private String areacode;
     private String avatar;
     private Integer saleId;
@@ -32,7 +33,7 @@ public class UserPage {
         this.page=1;
     }
 
-    public UserPage(Integer id, String uuid, String name, String nickname, String mobile, String password, String email, Integer gender, String birthdate, String location, String type, String areacode, String avatar, Integer saleId, Integer roleId, Date loginTime, String loginIP, int pageSize, int page) {
+    public UserPage(Integer id, String uuid, String name, String nickname, String mobile, String password, String email, Integer gender, String birthdate, String location, String type, String expiredate, String areacode, String avatar, Integer saleId, Integer roleId, Date loginTime, String loginIP, int pageSize, int page) {
         this.id = id;
         this.uuid = uuid;
         this.name = name;
@@ -44,6 +45,7 @@ public class UserPage {
         this.birthdate = birthdate;
         this.location = location;
         this.type = type;
+        this.expiredate = expiredate;
         this.areacode = areacode;
         this.avatar = avatar;
         this.saleId = saleId;
@@ -140,6 +142,14 @@ public class UserPage {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getExpiredate() {
+        return expiredate;
+    }
+
+    public void setExpiredate(String expiredate) {
+        this.expiredate = expiredate;
     }
 
     public String getAreacode() {

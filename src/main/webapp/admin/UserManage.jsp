@@ -50,6 +50,42 @@
     <!-- bootstrap-notify -->
     <script src="${pageContext.request.contextPath}/jslib/bootstrap-notify/bootstrap-notify.min.js"></script>
 
+    <script>
+        $(function () {
+            $.ajax({
+                type: "POST",
+                url: ctx + '/StaffAction!getStaff.action',
+                data:{
+                    roleId:3
+                },
+                async:false,
+                success: function(json)
+                {
+                    var dataObj = eval("(" + json + ")"),
+                        msg = dataObj["msg"],
+                        successFlag = dataObj["success"];
+
+                    if (successFlag) {
+                        $("#saleId_search").append("<option value=''></option>");
+
+                        var rows = dataObj["obj"];
+
+                        for (var i = 0; i < rows.length; i++) {
+                            // 当前行所有数据
+                            var row = rows[i];
+                            var staffId = row["staffId"];
+                            var staffName = row["name"];
+                            $("#saleId_search").append("<option value='"+staffId+"'>"+staffName+"</option>");
+                        }
+
+                    }
+                },
+                error: function(){
+                }
+            });
+        });
+    </script>
+
 </head>
 <body>
 	<!-- 整个页面外层container -->
@@ -57,6 +93,17 @@
 		<!-- 公用的导航栏 -->
 		<jsp:include page="/admin/CommonHead.jsp"></jsp:include>
 		<p class="lead"><span class="glyphicon glyphicon-list"></span>查看用户信息</p>
+
+        <div style = "text-align:left;">
+            姓名：<input style="width: 100px; height: 33px" type="text" id="name_search" /> &nbsp;
+            昵称：<input style="width: 100px; height: 33px" type="text" id="nickname_search" /> &nbsp;
+            手机号：<input style="width: 100px; height: 33px" type="text" id="mobile_search" /> &nbsp;
+            Email：<input style="width: 100px; height: 33px" type="text" id="email_search" /> &nbsp;
+            销售人员：
+            <select style="width: 100px; height: 33px" id="saleId_search" >
+            </select>&nbsp;&nbsp;
+            <button class="btn btn-info btn-sm joinExamBtn" onclick="filter()">自定义查询</button>
+        </div>
 
         <div style = "text-align:right;">
             <button class="btn btn-info btn-sm joinExamBtn" onclick="window.location.href='UserAdd.jsp'">添加用户</button>
@@ -78,7 +125,7 @@
             </h4>
          </div>
          <div class="modal-body">
-  删除该用户以后，数据将会从数据库中删除
+             删除该用户以后，数据将会从数据库中删除
          </div>
          <div class="modal-footer">
             <button type="button" class="btn btn-default" 

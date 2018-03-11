@@ -107,7 +107,7 @@ public class StaffAction extends BaseAction implements ModelDriven<StaffPage>{
 	 */
 	public void getStaff()
 	{
-		List<StaffPage> list=staffService.getAll(staffPage.getRoleName(), staffPage.getAccount(), staffPage.getName(),
+		List<StaffPage> list=staffService.getAll(staffPage.getRoleId(), staffPage.getRoleName(), staffPage.getAccount(), staffPage.getName(),
 				staffPage.getPhone(), staffPage.getEmail(),staffPage.getPageSize(),staffPage.getPage());
 		Json j = new Json();
 		logger.info("查询员工成功");
