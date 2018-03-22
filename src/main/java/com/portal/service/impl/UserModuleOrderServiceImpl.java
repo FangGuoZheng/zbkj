@@ -55,8 +55,8 @@ public class UserModuleOrderServiceImpl implements UserModuleOrderServiceI {
             userModuleOrderPage.setId(userModuleOrder.getId());
             userModuleOrderPage.setUserId(userModuleOrder.getUser().getId());
             userModuleOrderPage.setUserName(userModuleOrder.getUser().getName());
-            userModuleOrderPage.setModuleId(userModuleOrder.getModule().getId());
-            userModuleOrderPage.setModuleName(userModuleOrder.getModule().getName());
+            userModuleOrderPage.setModuleId(userModuleOrder.getModule() == null?null:userModuleOrder.getModule().getId());
+            userModuleOrderPage.setModuleName(userModuleOrder.getModule() == null?null:userModuleOrder.getModule().getName());
             userModuleOrderPage.setOpeUserId(userModuleOrder.getOpeUser().getId());
             userModuleOrderPage.setOpeUserName(userModuleOrder.getOpeUser().getName());
             userModuleOrderPage.setAmount(userModuleOrder.getAmount());
